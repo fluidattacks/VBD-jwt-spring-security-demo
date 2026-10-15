@@ -19,6 +19,7 @@ import org.zerhusen.security.jwt.TokenProvider;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@org.springframework.context.annotation.PropertySource("classpath:service.properties")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
    private final TokenProvider tokenProvider;
@@ -99,6 +100,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
          .antMatchers("/api/person").hasAuthority("ROLE_USER")
          .antMatchers("/api/hiddenmessage").hasAuthority("ROLE_ADMIN")
+
+         .requestMatchers(org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest.toAnyEndpoint().excluding("info")).permitAll()
 
          .anyRequest().authenticated()
 
